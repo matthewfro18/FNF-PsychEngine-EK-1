@@ -4021,7 +4021,7 @@ class PlayState extends MusicBeatState
 			}
 			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
 			{
-				openSubState(new GameOverPolygonizedSubState);
+				openSubState(new GameOverPolygonizedSubState());
 			}
 			else
 			{
