@@ -376,6 +376,8 @@ class PlayState extends MusicBeatState
 	public static var characteroverride:String = "none";
 	public static var formoverride:String = "none";
 
+	var funnyFloatyBoys:Array<String> = ['dave-angey', 'bambi-3d', 'expunged', 'bambi-unfair', 'exbungo', 'dave-festival-3d', 'dave-3d-recursed', 'bf-3d'];
+
 	override public function create()
 	{
 		switch (SONG.song.toLowerCase())
@@ -3973,6 +3975,28 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("Chart Editor", null, null, true);
 		#end
+	}
+	function gameOver()
+	{		
+		if (!inFiveNights)
+		{
+			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
+			{
+				openSubState(new GameOverPolygonizedSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
+			}
+			else
+			{
+				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
+			}
+		}
+		else
+		{
+			if (powerDown != null)
+			{
+				powerDown.stop();
+			}
+			openSubState(new GameOverFNAF());
+		}
 	}
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
