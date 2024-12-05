@@ -147,6 +147,7 @@ class PlayState extends MusicBeatState
 	public var playbackRate(default, set):Float = 1;
 
 	public var boyfriendGroup:FlxSpriteGroup;
+	public var bfTrailGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
 	public var gfGroup:FlxSpriteGroup;
 	public static var curStage:String = '';
@@ -366,6 +367,9 @@ class PlayState extends MusicBeatState
 	public static var globalFunny:CharacterFunnyEffect = CharacterFunnyEffect.None;
 
 	public var localFunny:CharacterFunnyEffect = CharacterFunnyEffect.None;
+
+	public static var characteroverride:String = "none";
+	public static var formoverride:String = "none";
 
 	override public function create()
 	{
@@ -613,29 +617,22 @@ class PlayState extends MusicBeatState
 				add(boyfriendGroup);
 
 				var floor:BGSprite = new BGSprite('frontFloor', -689, 525, Paths.image('backgrounds/office/floor'), null, 1, 1);
-				backgroundSprites.add(floor);
 
-				door = new BGSprite('door', 68, -152, 'backgrounds/office/door', [
+				var door:BGSprite = new BGSprite('door', 68, -152, 'backgrounds/office/door', [
 					new Animation('idle', 'doorLOL instance 1', 0, false, [false, false], [11]),
 					new Animation('doorShut', 'doorLOL instance 1', 24, false, [false, false], CoolUtil.numberArray(22, 11)),
 					new Animation('doorOpen', 'doorLOL instance 1', 24, false, [false, false], CoolUtil.numberArray(11, 0))
 				], 1, 1, true, true);
 				door.animation.play('idle');
-				backgroundSprites.add(door);
-				add(door);
 
 				var frontWall:BGSprite = new BGSprite('frontWall', -716, -381, Paths.image('backgrounds/office/frontWall'), null, 1, 1);
-				backgroundSprites.add(frontWall);
-				add(frontWall);
 
-				doorButton = new BGSprite('doorButton', 521, 61, Paths.image('fiveNights/btn_doorOpen'), null, 1, 1);
-				backgroundSprites.add(doorButton);
-				add(doorButton);
+				var doorButton:BGSprite = new BGSprite('doorButton', 521, 61, Paths.image('fiveNights/btn_doorOpen'), null, 1, 1);
 				
 				var backFloor:BGSprite = new BGSprite('backFloor', -500, -310, Paths.image('backgrounds/office/backFloor'), null, 1, 1);
-				sprites.add(backFloor);
 
 				add(backFloor);
+				add(door);
 				add(frontWall);
 				add(doorButton);
 				add(floor);
@@ -1174,7 +1171,7 @@ class PlayState extends MusicBeatState
 
 			shaggyT = new FlxTrail(boyfriend, null, 5, 7, 0.3, 0.001);
 			bfTrailGroup.add(shaggyT);
-			bfGroup.add(legs);
+			boyfriendGroup.add(legs);
 
 			shx = boyfriend.x;
 			shy = boyfriend.y;
@@ -5651,6 +5648,39 @@ class PlayState extends MusicBeatState
 		}
 		FlxG.sound.music.fadeTween = null;
 	}
+	function nofriendAttack()
+	{
+		dad.playAnim('attack', true);
+		var runSfx = new FlxSound().loadEmbedded(Paths.soundRandom('fiveNights/run', 1, 2, 'shared'));
+		runSfx.play();
+	}
+	function sixAM()
+	{
+		FlxG.sound.music.volume = 1;
+		vocals.volume = 1;
+		camHUD.alpha = 1;
+
+		FlxG.camera.flash(FlxColor.WHITE, 0.5);
+		black = new FlxSprite(0, 0).makeGraphic(2560, 1440, FlxColor.BLACK);
+		black.screenCenter();
+		black.scrollFactor.set();
+		black.cameras = [camHUD];
+		add(black);
+
+		var sixAM:FlxText = new FlxText(0, 0, 0, "6 AM", 90);
+		sixAM.setFormat(Paths.font('fnaf.ttf'), 90, FlxColor.WHITE, CENTER);
+		sixAM.antialiasing = false;
+		sixAM.scrollFactor.set();
+		sixAM.screenCenter();
+		sixAM.cameras = [camHUD];
+		sixAM.alpha = 0;
+		add(sixAM);
+
+		FlxTween.tween(sixAM, {alpha: 1}, 1);
+
+		var crowdSmall = new FlxSound().loadEmbedded(Paths.sound('fiveNights/CROWD_SMALL_CHIL_EC049202', 'shared'));
+		crowdSmall.play();
+	}
 
 	var lastStepHit:Int = -1;
 	override function stepHit()
@@ -5676,8 +5706,6 @@ class PlayState extends MusicBeatState
 				{
 					switch (curStep)
 					{
-						case 60:
-							switchNoteSide();
 						case 64 | 320 | 480 | 576 | 704 | 832 | 1024:
 							nofriendAttack();
 						case 992:
