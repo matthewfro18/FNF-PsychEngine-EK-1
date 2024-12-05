@@ -24,8 +24,7 @@ class Note extends FlxSprite
 	//Extra keys stuff
 
 	//Important stuff
-	public static var gfxLetter:Array<String> = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-												'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];
+	public static var gfxColor:Array<String> = ['purple', 'blue', 'green', 'red', 'pink', 'turq', 'emerald', 'lightred', 'yellow', 'violet', 'black', 'dark'];
 	public static var ammo:Array<Int> = EKData.gun;
 	public static var minMania:Int = 0;
 	public static var maxMania:Int = 17; // key value is this + 1
@@ -373,14 +372,14 @@ class Note extends FlxSprite
 	}
 
 	function loadNoteAnims() {
-		for (i in 0...gfxLetter.length)
+		for (i in 0...gfxColor.length)
 			{
-				animation.addByPrefix(gfxLetter[i], gfxLetter[i] + '0');
+				animation.addByPrefix(gfxColor[i], gfxColor[i] + '0');
 	
 				if (isSustainNote)
 				{
-					animation.addByPrefix(gfxLetter[i] + ' hold', gfxLetter[i] + ' hold');
-					animation.addByPrefix(gfxLetter[i] + ' tail', gfxLetter[i] + ' tail');
+					animation.addByPrefix(gfxColor[i] + ' hold', gfxColor[i] + ' hold');
+					animation.addByPrefix(gfxColor[i] + ' tail', gfxColor[i] + ' tail');
 				}
 			}
 				
@@ -395,13 +394,13 @@ class Note extends FlxSprite
 
 	function loadPixelNoteAnims() {
 		if(isSustainNote) {
-			for (i in 0...gfxLetter.length) {
-				animation.add(gfxLetter[i] + ' hold', [i]);
-				animation.add(gfxLetter[i] + ' tail', [i + pixelNotesDivisionValue]);
+			for (i in 0...gfxColor.length) {
+				animation.add(gfxColor[i] + ' hold', [i]);
+				animation.add(gfxColor[i] + ' tail', [i + pixelNotesDivisionValue]);
 			}
 		} else {
-			for (i in 0...gfxLetter.length) {
-				animation.add(gfxLetter[i], [i + pixelNotesDivisionValue]);
+			for (i in 0...gfxColor.length) {
+				animation.add(gfxColor[i], [i + pixelNotesDivisionValue]);
 			}
 		}
 	}
