@@ -626,9 +626,9 @@ class PlayState extends MusicBeatState
 				var floor:BGSprite = new BGSprite('backgrounds/office/floor', -689, 525, 1, 1);
 
 				door = new BGSprite('backgrounds/office/door', -200, -100);
-				door.animation.addByIndices('idle', 'doorLOL instance 1', [11],  24, false);
-				door.animation.addByIndices('doorShut', 'doorLOL instance 1', [22, 11],  24, false);
-				door.animation.addByIndices('doorOpen', 'doorLOL instance 1', [11, 0],  24, false);
+				door.animation.addByIndices('idle', 'doorLOL instance 1', [11], '', 24);
+				door.animation.addByIndices('doorShut', 'doorLOL instance 1', [22, 11], '', 24);
+				door.animation.addByIndices('doorOpen', 'doorLOL instance 1', [11, 0], '', 24);
 				door.animation.play('idle');
 
 				var frontWall:BGSprite = new BGSprite('backgrounds/office/frontWall', -716, -381, 1, 1);
