@@ -350,6 +350,11 @@ class PlayState extends MusicBeatState
 	var powerDown:FlxSound;
 	var usage:FlxText;
 
+	var door:BGSprite;
+	var doorButton:BGSprite;
+	var doorClosed:Bool;
+	var doorChanging:Bool;
+
 	public static var shaggyVoice:Bool = false;
 	var isShaggy:Bool = false;
 	var legs:FlxSprite;
@@ -616,20 +621,19 @@ class PlayState extends MusicBeatState
 				add(gfGroup);
 				add(boyfriendGroup);
 
-				var floor:BGSprite = new BGSprite('frontFloor', -689, 525, Paths.image('backgrounds/office/floor'), null, 1, 1);
+				var floor:BGSprite = new BGSprite('backgrounds/office/floor', -689, 525, 1, 1);
 
-				var door:BGSprite = new BGSprite('door', 68, -152, 'backgrounds/office/door', [
-					new Animation('idle', 'doorLOL instance 1', 0, false, [false, false], [11]),
-					new Animation('doorShut', 'doorLOL instance 1', 24, false, [false, false], CoolUtil.numberArray(22, 11)),
-					new Animation('doorOpen', 'doorLOL instance 1', 24, false, [false, false], CoolUtil.numberArray(11, 0))
-				], 1, 1, true, true);
+				door = new BGSprite('backgrounds/office/door', -200, -100);
+				door.animation.addByIndices('idle', 'doorLOL instance 1', [11],  24, false);
+				door.animation.addByIndices('doorShut', 'doorLOL instance 1', [22, 11],  24, false);
+				door.animation.addByIndices('doorOpen', 'doorLOL instance 1', [11, 0],  24, false);
 				door.animation.play('idle');
 
-				var frontWall:BGSprite = new BGSprite('frontWall', -716, -381, Paths.image('backgrounds/office/frontWall'), null, 1, 1);
+				var frontWall:BGSprite = new BGSprite('backgrounds/office/frontWall', -716, -381, 1, 1);
 
-				var doorButton:BGSprite = new BGSprite('doorButton', 521, 61, Paths.image('fiveNights/btn_doorOpen'), null, 1, 1);
+				doorButton = new BGSprite('fiveNights/btn_doorOpen', -716, -38, 1, 1);
 				
-				var backFloor:BGSprite = new BGSprite('backFloor', -500, -310, Paths.image('backgrounds/office/backFloor'), null, 1, 1);
+				var backFloor:BGSprite = new BGSprite('backgrounds/office/backFloor', -500, -310, 1, 1);
 
 				add(backFloor);
 				add(door);
@@ -3393,6 +3397,91 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (SONG.song.toLowerCase() == 'five-nights')
+		{
+			powerLeft = Math.max(powerLeft - (elapsed / 3) * powerDrainer, 0);
+			powerLeftText.text = 'Power Left: ${Math.floor(powerLeft)}%';
+			if (powerLeft <= 0 && !powerRanOut && curStep < 1088)
+			{
+				powerRanOut = true;
+				
+				boyfriend.stunned = true;
+
+				persistentUpdate = false;
+				persistentDraw = false;
+				paused = true;
+	
+				vocals.volume = 0;
+				FlxG.sound.music.volume = 0;
+
+				FlxTween.tween(camHUD, {alpha: 0}, 1);
+				
+				for (note in unspawnNotes)
+				{
+					unspawnNotes.remove(note);
+				}
+
+				black = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+				black.scrollFactor.set();
+				black.screenCenter();
+				add(black);
+
+				powerDown = new FlxSound().loadEmbedded(Paths.sound('fiveNights/powerOut', 'shared'));
+				powerDown.play();
+			}
+			if (powerRanOut)
+			{
+				curStep < 1088 ? {
+					new FlxTimer().start(FlxG.random.int(2, 4), function(timer:FlxTimer)
+					{
+						if (FlxG.random.int(0, 4) == 0)
+						{
+							health = 0;
+						}
+					}, Std.int(Math.POSITIVE_INFINITY));
+				} : {
+					powerRanOut = false;
+
+					persistentUpdate = true;
+					persistentDraw = true;
+					
+					camHUD.alpha = 1;
+					vocals.volume = 1;
+					FlxG.sound.music.volume = 0.8;
+					sixAM();
+				}
+			}
+			if (time != null)
+			{
+				var curTime = Std.int(Math.min(Math.floor(FlxG.sound.music.time / 1000 / (((Conductor.stepCrochet / 1000) * 1088) / times.length - 1)), times.length));
+				time.text = times[curTime] + ' AM';
+			}
+			if ((FlxG.mouse.overlaps(doorButton) && (FlxG.mouse.justPressed || controls.KEY5) && !doorChanging) || 
+				(botPlay && !doorChanging && dad.curCharacter == 'nofriend' && (doorClosed ? dad.animation.curAnim.name != 'attack' : dad.animation.curAnim.name == 'attack')))
+			{
+				changeDoorState(!doorClosed);
+			}
+			if (dad.curCharacter == 'nofriend' && dad.animation.curAnim.name == 'attack' && dad.animation.curAnim.finished)
+			{
+				doorClosed ? {
+					var slam = new FlxSound().loadEmbedded(Paths.sound('fiveNights/slam'));
+					slam.play();
+					dad.playAnim('fail');
+					dad.animation.finishCallback = function(animation:String)
+					{
+						new FlxTimer().start(1.25, function(timer:FlxTimer)
+						{
+							dad.canDance = true;
+							dad.canSing = true;
+							dad.dance();
+						});
+					};
+					powerLeft -= FlxG.random.int(2, 4);
+				} : {
+					health = 0;
+				}
+			}
+		}
 		if(ClientPrefs.camMovement && !PlayState.isPixelStage) {
 			if(camlock) {
 				camFollow.x = camlockx;
