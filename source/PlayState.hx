@@ -5663,7 +5663,7 @@ class PlayState extends MusicBeatState
 
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
-		callOnLuas('onStepHit', []
+		callOnLuas('onStepHit', []);
 		switch (SONG.song.toLowerCase())
 		{
 			case 'five-nights':
