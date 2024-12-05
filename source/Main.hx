@@ -36,6 +36,10 @@ class Main extends Sprite
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var fpsVar:FPS;
 
+	public static var fps:FpsDisplay;
+
+	public static var applicationName:String = "Friday Night Funkin' | VS. Dave and Bambi 3.0b | Extra Keys Addon 2.0.2";
+
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
@@ -65,6 +69,11 @@ class Main extends Sprite
 		}
 
 		setupGame();
+	}
+
+	public static function toggleFuckedFPS(toggle:Bool)
+	{
+		fps.fuckFps = toggle;
 	}
 
 	private function setupGame():Void
