@@ -2743,6 +2743,8 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
+			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song);
+		else if (isShaggy)
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, localFunny == CharacterFunnyEffect.Tristan ? "-Tristan" : shaggyVoice ? "Shaggy" : ""));
 		else
 			vocals = new FlxSound();
