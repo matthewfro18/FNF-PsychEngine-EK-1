@@ -4021,7 +4021,7 @@ class PlayState extends MusicBeatState
 			}
 			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
 			{
-				openSubState(new GameOverPolygonizedSubState(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y));
+				openSubState(new GameOverPolygonizedSubState);
 			}
 			else
 			{
@@ -4861,12 +4861,12 @@ class PlayState extends MusicBeatState
 			switch (SONG.song.toLowerCase())
 			{
 				case 'bot-trot':
-					createScorePopUp(-400, 300, true, combo);
+					createScorePopUp(-400, 300, true);
 				default:
 					if (isShaggy)
-						createScorePopUp(0,-350, true, combo);
+						createScorePopUp(0,-350, true);
 					else
-						createScorePopUp(0,0, true, combo);
+						createScorePopUp(0,0, true);
 			}
 			
 		}
