@@ -6164,7 +6164,6 @@ enum ExploitationModchartType
 {
 	None; Cheating; Figure8; ScrambledNotes; Cyclone; Unfairness; Jitterwave; PingPong; Sex;
 }
-
 enum CharacterFunnyEffect
 {
 	None; Dave; Bambi; Tristan; Exbungo; Recurser; Shaggy;
