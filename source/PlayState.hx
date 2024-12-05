@@ -3976,15 +3976,6 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor", null, null, true);
 		#end
 	}
-	function gameOver()
-	{
-		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : formoverride;
-
-		if (powerDown != null)
-		{
-			powerDown.stop();
-		}
-	}
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
