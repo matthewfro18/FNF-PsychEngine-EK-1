@@ -63,8 +63,8 @@ class NoteSplash extends FlxSprite
 	function loadAnims(skin:String) {
 		frames = Paths.getSparrowAtlas(skin);
 		for (i in 1...3) {
-			for (j in 0...Note.gfxLetter.length) {
-				var splashLetter:String = Note.gfxLetter[j];
+			for (j in 0...Note.gfxColor.length) {
+				var splashLetter:String = Note.gfxColor[j];
 				animation.addByPrefix('note$j-' + i, 'note splash $splashLetter ' + i, 24, false);
 			}
 
