@@ -4019,18 +4019,6 @@ class PlayState extends MusicBeatState
 				isDead = true;
 				return true;
 			}
-			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
-			{
-				openSubState(new GameOverPolygonizedSubState());
-			}
-			else
-			{
-				if (powerDown != null)
-				{
-					powerDown.stop();
-				}
-				openSubState(new GameOverFNAF());
-			}
 		}
 		return false;
 	}
