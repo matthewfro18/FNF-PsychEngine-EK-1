@@ -361,6 +361,11 @@ class PlayState extends MusicBeatState
 	var inFiveNights:Bool = false;
 
 	public var blackScreen:FlxSprite;
+	public var black:FlxSprite;
+
+	public static var globalFunny:CharacterFunnyEffect = CharacterFunnyEffect.None;
+
+	public var localFunny:CharacterFunnyEffect = CharacterFunnyEffect.None;
 
 	override public function create()
 	{
@@ -487,51 +492,51 @@ class PlayState extends MusicBeatState
 			switch (songName)
 			{
 				case 'house' | 'insanity' | 'supernovae' | 'warmup':
-					stageCheck = 'house';
+					curStage = 'house';
 				case 'polygonized':
-					stageCheck = 'red-void';
+					curStage = 'red-void';
 				case 'bonus-song':
-					stageCheck = 'inside-house';
+					curStage = 'inside-house';
 				case 'blocked' | 'corn-theft' | 'maze':
-					stageCheck = 'farm';
+					curStage = 'farm';
 				case 'indignancy':
-					stageCheck = 'farm-night';
+					curStage = 'farm-night';
 				case 'splitathon' | 'mealie':
-					stageCheck = 'farm-night';
+					curStage = 'farm-night';
 				case 'shredder' | 'greetings':
-					stageCheck = 'festival';
+					curStage = 'festival';
 				case 'interdimensional':
-					stageCheck = 'interdimension-void';
+					curStage = 'interdimension-void';
 				case 'rano':
-					stageCheck = 'backyard';
+					curStage = 'backyard';
 				case 'cheating':
-					stageCheck = 'green-void';
+					curStage = 'green-void';
 				case 'unfairness':
-					stageCheck = 'glitchy-void';
+					curStage = 'glitchy-void';
 				case 'exploitation':
-					stageCheck = 'desktop';
+					curStage = 'desktop';
 				case 'kabunga':
-					stageCheck = 'exbungo-land';
+					curStage = 'exbungo-land';
 				case 'glitch' | 'memory':
-					stageCheck = 'house-night';
+					curStage = 'house-night';
 				case 'secret':
-					stageCheck = 'house-sunset';
+					curStage = 'house-sunset';
 				case 'vs-dave-rap' | 'vs-dave-rap-two':
-					stageCheck = 'rapBattle';
+					curStage = 'rapBattle';
 				case 'recursed':
-					stageCheck = 'freeplay';
+					curStage = 'freeplay';
 				case 'roofs':
-					stageCheck = 'roof';
+					curStage = 'roof';
 				case 'bot-trot':
-					stageCheck = 'bedroom';
+					curStage = 'bedroom';
 				case 'escape-from-california':
-					stageCheck = 'desert';
+					curStage = 'desert';
 				case 'master':
-					stageCheck = 'master';
+					curStage = 'master';
 				case 'overdrive':
-					stageCheck = 'overdrive';
+					curStage = 'overdrive';
 				case 'five-nights':
-					stageCheck = 'office';
+					curStage = 'office';
 				case 'spookeez' | 'south' | 'monster':
 					curStage = 'spooky';
 				case 'pico' | 'blammed' | 'philly' | 'philly-nice':
@@ -605,7 +610,7 @@ class PlayState extends MusicBeatState
 		{
 			case 'office':
 				add(gfGroup);
-				add(bfGroup);
+				add(boyfriendGroup);
 
 				var floor:BGSprite = new BGSprite('frontFloor', -689, 525, Paths.image('backgrounds/office/floor'), null, 1, 1);
 				backgroundSprites.add(floor);
@@ -1064,7 +1069,7 @@ class PlayState extends MusicBeatState
 		
 		if (noGFSongs.contains(SONG.song.toLowerCase()) || !['none', 'bf', 'bf-pixel'].contains(formoverride))
 		{
-			gf.visible = false;
+			gfVersion = 'gf-none';
 		}
 
 		if(gfVersion == null || gfVersion.length < 1)
@@ -1977,7 +1982,7 @@ class PlayState extends MusicBeatState
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
 		inCutscene = true;
-		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		black = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		black.scrollFactor.set();
 		add(black);
 
@@ -2735,7 +2740,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, localFunny == CharacterFunnyEffect.Tristan ? "-Tristan" : shaggyVoice ? "Shaggy" : ""));
 		else
 			vocals = new FlxSound();
 
@@ -5985,4 +5990,14 @@ class PlayState extends MusicBeatState
 
 	var curLight:Int = -1;
 	var curLightEvent:Int = -1;
+
+}
+enum ExploitationModchartType
+{
+	None; Cheating; Figure8; ScrambledNotes; Cyclone; Unfairness; Jitterwave; PingPong; Sex;
+}
+
+enum CharacterFunnyEffect
+{
+	None; Dave; Bambi; Tristan; Exbungo; Recurser; Shaggy;
 }
