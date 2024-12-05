@@ -3978,7 +3978,7 @@ class PlayState extends MusicBeatState
 	}
 	function gameOver()
 	{
-		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : isRecursed ? boyfriend.curCharacter : formoverride;
+		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : formoverride;
 		if (!inFiveNights)
 		{
 			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
