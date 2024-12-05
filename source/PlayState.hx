@@ -3975,7 +3975,8 @@ class PlayState extends MusicBeatState
 		#end
 	}
 	function gameOver()
-	{		
+	{
+		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : isRecursed ? boyfriend.curCharacter : formoverride;
 		if (!inFiveNights)
 		{
 			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
@@ -6126,6 +6127,32 @@ class PlayState extends MusicBeatState
 		return null;
 	}
 	#end
+	function changeDoorState(closed:Bool)
+	{
+		doorClosed = closed;
+		doorChanging = true;
+		FlxG.sound.play(Paths.sound('fiveNights/doorInteract', 'shared'), 1);
+		if (doorClosed)
+		{
+			doorButton.loadGraphic(Paths.image('fiveNights/btn_doorClosed'));
+			powerMeter.loadGraphic(Paths.image('fiveNights/powerMeter_2'));
+			door.animation.play('doorShut');
+			
+			powerDrainer = 3;
+		}
+		else
+		{
+			doorButton.loadGraphic(Paths.image('fiveNights/btn_doorOpen'));
+			powerMeter.loadGraphic(Paths.image('fiveNights/powerMeter'));
+			door.animation.play('doorOpen');
+
+			powerDrainer = 1;
+		}
+		door.animation.finishCallback = function(animation:String)
+		{
+			doorChanging = false;
+		}
+	}
 
 	var curLight:Int = -1;
 	var curLightEvent:Int = -1;
