@@ -3459,7 +3459,7 @@ class PlayState extends MusicBeatState
 				time.text = times[curTime] + ' AM';
 			}
 			if ((FlxG.mouse.overlaps(doorButton) && (FlxG.mouse.justPressed || controls.KEY5) && !doorChanging) || 
-				(botPlay && !doorChanging && dad.curCharacter == 'nofriend' && (doorClosed ? dad.animation.curAnim.name != 'attack' : dad.animation.curAnim.name == 'attack')))
+				(cpuControlled && !doorChanging && dad.curCharacter == 'nofriend' && (doorClosed ? dad.animation.curAnim.name != 'attack' : dad.animation.curAnim.name == 'attack')))
 			{
 				changeDoorState(!doorClosed);
 			}
@@ -3473,8 +3473,6 @@ class PlayState extends MusicBeatState
 					{
 						new FlxTimer().start(1.25, function(timer:FlxTimer)
 						{
-							dad.canDance = true;
-							dad.canSing = true;
 							dad.dance();
 						});
 					};
