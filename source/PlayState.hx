@@ -3979,24 +3979,10 @@ class PlayState extends MusicBeatState
 	function gameOver()
 	{
 		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : formoverride;
-		if (!inFiveNights)
+
+		if (powerDown != null)
 		{
-			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
-			{
-				openSubState(new GameOverPolygonizedSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
-			}
-			else
-			{
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
-			}
-		}
-		else
-		{
-			if (powerDown != null)
-			{
-				powerDown.stop();
-			}
-			openSubState(new GameOverFNAF());
+			powerDown.stop();
 		}
 	}
 
@@ -4032,6 +4018,18 @@ class PlayState extends MusicBeatState
 				#end
 				isDead = true;
 				return true;
+			}
+			if (funnyFloatyBoys.contains(boyfriend.curCharacter))
+			{
+				openSubState(new GameOverPolygonizedSubState(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y));
+			}
+			else
+			{
+				if (powerDown != null)
+				{
+					powerDown.stop();
+				}
+				openSubState(new GameOverFNAF());
 			}
 		}
 		return false;
@@ -4863,12 +4861,12 @@ class PlayState extends MusicBeatState
 			switch (SONG.song.toLowerCase())
 			{
 				case 'bot-trot':
-					createScorePopUp(-400, 300, true, daRating, combo);
+					createScorePopUp(-400, 300, true, combo);
 				default:
 					if (isShaggy)
-						createScorePopUp(0,-350, true, daRating, combo);
+						createScorePopUp(0,-350, true, combo);
 					else
-						createScorePopUp(0,0, true, daRating, combo);
+						createScorePopUp(0,0, true, combo);
 			}
 			
 		}
