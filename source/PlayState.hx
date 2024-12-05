@@ -4863,12 +4863,12 @@ class PlayState extends MusicBeatState
 			switch (SONG.song.toLowerCase())
 			{
 				case 'bot-trot':
-					createScorePopUp(-400, 300, true, daRating, combo, note.noteStyle);
+					createScorePopUp(-400, 300, true, daRating, combo);
 				default:
 					if (isShaggy)
-						createScorePopUp(0,-350, true, daRating, combo, note.noteStyle);
+						createScorePopUp(0,-350, true, daRating, combo);
 					else
-						createScorePopUp(0,0, true, daRating, combo, note.noteStyle);
+						createScorePopUp(0,0, true, daRating, combo);
 			}
 			
 		}
